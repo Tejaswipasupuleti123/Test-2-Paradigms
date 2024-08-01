@@ -1,4 +1,4 @@
-type Genre =
+type Genre = 
     | Horror
     | Drama
     | Thriller
@@ -6,8 +6,9 @@ type Genre =
     | Fantasy
     | Sport
 
-type Director = { Name: string; Movies: int}
-type Movie = {Name: string; RunLength: int; Genre: Genre; Director: Director; IMDBRating: float}
+type Director = { Name: string; Movies: int }
+type Movie = { Name: string; RunLength: int; Genre: Genre; Director: Director; IMDBRating: float }
+
 let movies = [
     { Name = "CODA"; RunLength = 111; Genre = Drama; Director = { Name = "Sian Heder"; Movies = 9 }; IMDBRating = 8.1 }
     { Name = "Belfast"; RunLength = 98; Genre = Comedy; Director = { Name = "Kenneth Branagh"; Movies = 23 }; IMDBRating = 7.3 }
@@ -18,18 +19,20 @@ let movies = [
     { Name = "Licorice Pizza"; RunLength = 133; Genre = Comedy; Director = { Name = "Paul Thomas Anderson"; Movies = 49 }; IMDBRating = 7.4 }
     { Name = "Nightmare Alley"; RunLength = 150; Genre = Thriller; Director = { Name = "Guillermo Del Toro"; Movies = 22 }; IMDBRating = 7.1 }
 ]
-let convertRunLength runLength =
+
+let convertRunLength name runLength =
     let hours = runLength / 60
     let minutes = runLength % 60
-    sprintf "%dh %dmin" hours minutes
-let probableOscarWinners =
-    movies |> List.filter (fun m -> m.IMDBRating > 7.4)
+    sprintf "%s: %dh %dmin" name hours minutes
 
-let moviesWithRunLengthInHours =
-    movies |> List.map (fun m -> convertRunLength m.RunLength)
+let probableOscarWinners = movies |> List.filter (fun m -> m.IMDBRating > 7.4)
+
+let moviesWithRunLengthInHours = 
+    movies |> List.map (fun m -> convertRunLength m.Name m.RunLength)
 
 printfn "Probable Oscar Winners:"
-probableOscarWinners|> List.iter (fun movie -> printfn "Movie Name: %s, Genre: %A, Rating: %.1f" movie.Name movie.Genre movie.IMDBRating)
+probableOscarWinners |> List.iter (fun movie -> 
+    printfn "Movie Name: %s, Genre: %A, Rating: %.1f" movie.Name movie.Genre movie.IMDBRating)
 
 printfn "\nMovies with Run Length in Hours:"
-moviesWithRunLengthInHours|> List.iter (printfn "%s")
+moviesWithRunLengthInHours |> List.iter (printfn "%s")
